@@ -1,0 +1,8 @@
+{
+    "lookbackDays":  30,
+    "notionDatabaseId":  "YOUR_NOTION_DB_ID",
+    "notionApiKey":  "YOUR_NOTION_API_KEY",
+    "appId":  "YOUR_ENTRA_APP_ID",
+    "tenantId":  "YOUR_TENANT_ID",
+    "appSecret":  "YOUR_ENTRA_APP_SECRET"
+}
