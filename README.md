@@ -1,4 +1,4 @@
-﻿# GCI-Notion365
+# GCI-Notion365
 
 GCI-Notion365 is a PowerShell-based solution that automatically extracts Microsoft 365 usage data and transforms it into visually appealing dashboards in Notion. Similar to paid solutions like AdminDroid, it provides comprehensive insights into Teams activity, Exchange usage, SharePoint collaboration, OneDrive file sharing, and license utilization—all without subscription fees.
 
@@ -57,22 +57,47 @@ The solution creates the following dashboards in Notion:
 
 ### Microsoft Graph API Setup
 
-1. Register an application in Azure AD
+1. Register an application in Microsoft Entra ID (formerly Azure AD)
    - Go to [Azure Portal](https://portal.azure.com) > Microsoft Entra ID > App registrations
-   - Create a new registration
+   - Click "New registration"
+   - Name: "GCI-Notion365 Reporting"
+   - Supported account types: "Accounts in this organizational directory only"
+   - Redirect URI: Leave blank
+   - Click "Register"
 
-2. Grant the following API permissions:
-   - Reports.Read.All
-   - Organization.Read.All
-   - Directory.Read.All
-   - User.Read.All
+2. Create a client secret
+   - In your application, go to "Certificates & secrets"
+   - Click "New client secret"
+   - Add a description and select an expiration period
+   - Copy the generated secret value immediately (you won't be able to see it again)
 
-3. Generate a client secret
+3. Add the required API permissions
+   - In your application, go to "API permissions"
+   - Click "Add a permission"
+   - Select "Microsoft Graph"
+   - Choose "Application permissions"
+   - Add the following permissions:
+     - `Reports.Read.All` (For accessing usage reports)
+     - `Organization.Read.All` (For organization data)
+     - `Directory.Read.All` (For directory information)
+     - `User.Read.All` (For user data)
+     - `Group.Read.All` (For group information)
+     - `TeamSettings.Read.All` (For Teams data)
+     - `TeamMember.Read.All` (For Teams membership)
+     - `Sites.Read.All` (For SharePoint data)
+     - `Files.Read.All` (For OneDrive data)
+     - `Mail.Read` (For email statistics)
+     - `MailboxSettings.Read` (For mailbox settings)
 
-4. Make note of:
-   - Tenant ID
-   - Application (client) ID
-   - Client secret
+4. Grant admin consent
+   - After adding permissions, click "Grant admin consent for [Your Organization]"
+   - You must be a global administrator to grant these permissions
+   - All permissions should show as "Granted" after this step
+
+5. Note your application details
+   - Tenant ID (Directory ID): Found on the application overview page
+   - Application (client) ID: Found on the application overview page
+   - Client Secret: The value you copied when creating the secret
 
 ### Notion Setup
 
@@ -142,6 +167,14 @@ This will:
 - **Authentication Issues**: Verify API permissions and credentials in config.json
 - **Notion Issues**: Ensure database is properly shared with your integration
 - **CSV Processing Errors**: The tool includes robust error handling for various CSV formats
+- **Permission Issues**: Ensure all required Microsoft Graph permissions are granted with admin consent
+
+### Common Errors
+
+- **401 Unauthorized**: Check your Microsoft Graph API credentials
+- **403 Forbidden**: Ensure all required permissions are granted with admin consent
+- **404 Not Found**: Verify your Notion database ID is correct and the database is shared with your integration
+- **400 Bad Request**: Check the format of your API requests and parameters
 
 ## Extending the Solution
 
